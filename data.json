@@ -6,10 +6,13 @@
       "market": "SH",
       "name": "黄金ETF华安",
       "type": "ETF",
-      "shares": 100,
-      "avgCost": 9.133,
+      "quantity": 100,
+      "buyPrice": 9.133,
       "currentPrice": 8.659,
-      "createdAt": "2026-06-15T10:51:59.061497"
+      "buyDate": "2026-06-15",
+      "industry": "其他",
+      "availableQuantity": 100,
+      "note": ""
     },
     {
       "id": "a002",
@@ -17,10 +20,13 @@
       "market": "SH",
       "name": "黄金ETF工银",
       "type": "ETF",
-      "shares": 300,
-      "avgCost": 9.574,
+      "quantity": 300,
+      "buyPrice": 9.574,
       "currentPrice": 8.68,
-      "createdAt": "2026-06-15T10:51:59.061497"
+      "buyDate": "2026-06-15",
+      "industry": "其他",
+      "availableQuantity": 300,
+      "note": ""
     },
     {
       "id": "a003",
@@ -28,10 +34,13 @@
       "market": "SZ",
       "name": "国投白银LOF",
       "type": "LOF",
-      "shares": 4800,
-      "avgCost": 1.965,
+      "quantity": 4800,
+      "buyPrice": 1.965,
       "currentPrice": 1.9,
-      "createdAt": "2026-06-15T10:51:59.061497"
+      "buyDate": "2026-06-15",
+      "industry": "其他",
+      "availableQuantity": 4800,
+      "note": ""
     },
     {
       "id": "a004",
@@ -39,50 +48,16 @@
       "market": "SZ",
       "name": "黄金股ETF",
       "type": "ETF",
-      "shares": 125800,
-      "avgCost": 1.56,
+      "quantity": 125800,
+      "buyPrice": 1.56,
       "currentPrice": 1.383,
-      "createdAt": "2026-06-15T10:51:59.061497"
+      "buyDate": "2026-06-15",
+      "industry": "其他",
+      "availableQuantity": 125800,
+      "note": ""
     }
   ],
-  "trades": [
-    {
-      "id": "t001",
-      "assetId": "a001",
-      "type": "buy",
-      "shares": 100,
-      "price": 9.133,
-      "date": "2026-06-15",
-      "note": "初始导入"
-    },
-    {
-      "id": "t002",
-      "assetId": "a002",
-      "type": "buy",
-      "shares": 300,
-      "price": 9.574,
-      "date": "2026-06-15",
-      "note": "初始导入"
-    },
-    {
-      "id": "t003",
-      "assetId": "a003",
-      "type": "buy",
-      "shares": 4800,
-      "price": 1.965,
-      "date": "2026-06-15",
-      "note": "初始导入"
-    },
-    {
-      "id": "t004",
-      "assetId": "a004",
-      "type": "buy",
-      "shares": 125800,
-      "price": 1.56,
-      "date": "2026-06-15",
-      "note": "初始导入"
-    }
-  ],
+  "trades": [],
   "snapshots": [],
   "funds": {
     "availableCash": 118.11,
