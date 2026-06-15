@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>导入持仓数据</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 600px; margin: 60px auto; padding: 24px; background: #f5f5f5; }
+  .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  h2 { margin: 0 0 8px; }
+  .sub { color: #666; font-size: 14px; margin-bottom: 20px; }
+  button { padding: 12px 32px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; }
+  .btn-go { background: #2563eb; color: white; }
+  .btn-go:hover { background: #1d4ed8; }
+  .btn-done { background: #16a34a; color: white; }
+  .btn-done:hover { background: #15803d; }
+  .msg { margin-top: 16px; padding: 12px; border-radius: 8px; font-size: 14px; display: none; }
+  .msg.success { background: #dcfce7; color: #166534; display: block; }
+  .msg.error { background: #fce4ec; color: #c62828; display: block; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+  th { background: #f9fafb; font-weight: 600; }
+  .neg { color: #dc2626; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>导入持仓数据到资产跟踪</h2>
+  <p class="sub">以下数据来自你的证券账户截图（2026-06-15），点击按钮写入管理端。</p>
+
+  <table>
+    <tr><th>资产</th><th>代码</th><th>持仓</th><th>成本</th><th>现价</th><th>盈亏</th></tr>
+    <tr><td>黄金ETF华安</td><td>518880</td><td>100</td><td>9.133</td><td>8.659</td><td class="neg">-47.40</td></tr>
+    <tr><td>黄金ETF工银</td><td>518660</td><td>300</td><td>9.574</td><td>8.680</td><td class="neg">-268.07</td></tr>
+    <tr><td>国投白银LOF</td><td>161226</td><td>4800</td><td>1.965</td><td>1.900</td><td class="neg">-313.87</td></tr>
+    <tr><td>黄金股ETF</td><td>159321</td><td>125800</td><td>1.560</td><td>1.383</td><td class="neg">-22,332.04</td></tr>
+  </table>
+
+  <p style="font-size:13px;color:#888;">可用资金: 118.11 元 | 持仓市值: 186,571.30 元 | 总资产: 186,689.41 元</p>
+
+  <button class="btn-go" onclick="importData()">写入管理端数据</button>
+  <div id="msg" class="msg"></div>
+</div>
+
+<script>
+function importData() {
+  try {
+    const now = new Date().toISOString();
+
+    const assets = [
+      { id: 'a001', stockCode: '518880', market: 'SH', name: '黄金ETF华安', type: 'ETF', shares: 100, avgCost: 9.133, currentPrice: 8.659, createdAt: now },
+      { id: 'a002', stockCode: '518660', market: 'SH', name: '黄金ETF工银', type: 'ETF', shares: 300, avgCost: 9.574, currentPrice: 8.680, createdAt: now },
+      { id: 'a003', stockCode: '161226', market: 'SZ', name: '国投白银LOF', type: 'LOF', shares: 4800, avgCost: 1.965, currentPrice: 1.900, createdAt: now },
+      { id: 'a004', stockCode: '159321', market: 'SZ', name: '黄金股ETF', type: 'ETF', shares: 125800, avgCost: 1.560, currentPrice: 1.383, createdAt: now },
+    ];
+
+    const trades = [
+      { id: 't001', assetId: 'a001', type: 'buy', shares: 100, price: 9.133, date: '2026-06-15', note: '初始导入' },
+      { id: 't002', assetId: 'a002', type: 'buy', shares: 300, price: 9.574, date: '2026-06-15', note: '初始导入' },
+      { id: 't003', assetId: 'a003', type: 'buy', shares: 4800, price: 1.965, date: '2026-06-15', note: '初始导入' },
+      { id: 't004', assetId: 'a004', type: 'buy', shares: 125800, price: 1.560, date: '2026-06-15', note: '初始导入' },
+    ];
+
+    const funds = { availableCash: 118.11, frozenCash: 0, records: [] };
+    const snapshots = [];
+    const watchlist = [
+      { id: 'w001', stockCode: '518880', market: 'SH', name: '黄金ETF华安', type: 'ETF', addedAt: now },
+      { id: 'w002', stockCode: '518660', market: 'SH', name: '黄金ETF工银', type: 'ETF', addedAt: now },
+      { id: 'w003', stockCode: '161226', market: 'SZ', name: '国投白银LOF', type: 'LOF', addedAt: now },
+      { id: 'w004', stockCode: '159321', market: 'SZ', name: '黄金股ETF', type: 'ETF', addedAt: now },
+    ];
+
+    localStorage.setItem('asset-tracker-assets', JSON.stringify(assets));
+    localStorage.setItem('asset-tracker-trades', JSON.stringify(trades));
+    localStorage.setItem('asset-tracker-funds', JSON.stringify(funds));
+    localStorage.setItem('asset-tracker-snapshots', JSON.stringify(snapshots));
+    localStorage.setItem('asset-tracker-watchlist', JSON.stringify(watchlist));
+
+    document.getElementById('msg').className = 'msg success';
+    document.getElementById('msg').textContent = '数据已写入！请刷新管理端页面 (http://localhost:5173) 查看。';
+  } catch(e) {
+    document.getElementById('msg').className = 'msg error';
+    document.getElementById('msg').textContent = '写入失败: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
